@@ -1,5 +1,6 @@
 var mysql =require("mysql");
 var inquirer = require("inquirer");
+const cTable = require("console.table");
 
 // Creating the connection information for the SQL database
 var connection = mysql.createConnection({
@@ -19,7 +20,7 @@ connection.connect(function(error) {
 
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
-        console.log(res);
+        console.table(res);
       });
       connection.end();
     });
