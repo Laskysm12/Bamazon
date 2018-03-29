@@ -24,33 +24,46 @@ function start() {
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
     console.table(res);
-
+    // Run promptCustomerForItem, which will ask the user the item id and the desired # of units
     promptCustomerForItem(res);
   });
 }
-// How can I make this prompt happen???
 
 function promptCustomerForItem() {
   inquirer
-  .prompt([
-    {
-      name: "product",
-      type: "input",
-      message: "What is the ID of the product you would like to buy?",
-      validate: function(value) {
+    .prompt([
+      {
+        name: "productID",
+        type: "input",
+        message: "What is the ID of the product you would like to buy?",
+        validate: function(value) {
           if (isNaN(value) === false) {
-              return true;
+            return true;
           }
           return false;
+        }
+      },
+      {
+        name: "quantity",
+        type: "input",
+        message: "How many units of the product would you like to buy?"
       }
-    },
-    {
-      name: "quantity",
-      type: "input",
-      message: "How many units of the product would you like to buy?"
-    }
-  ]);
+    ])
+    .then(function(answer) {
+      console.log(answer);
+      connection.query(
+        "SELECT * FROM products WHERE item_id =" + answer.productID, function(err, results) {
+            if (err) throw err;
+            console.log(results);
+        }   
+      );
+    });
 }
+
+// Add query database
+// First
+// will check whether user answer > quantity
+// If then statement goes in the .then
 
 // Run the start function after the connection is made to prompt the user
 // loadProducts();
