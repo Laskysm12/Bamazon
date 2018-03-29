@@ -36,7 +36,18 @@ function promptCustomerForItem() {
     {
       name: "product",
       type: "input",
-      message: "What is the ID of the product you would like to buy?"
+      message: "What is the ID of the product you would like to buy?",
+      validate: function(value) {
+          if (isNaN(value) === false) {
+              return true;
+          }
+          return false;
+      }
+    },
+    {
+      name: "quantity",
+      type: "input",
+      message: "How many units of the product would you like to buy?"
     }
   ]);
 }
