@@ -52,7 +52,7 @@ function promptCustomerForItem() {
     .then(function(answer) {
       var product_id;
       var purchaseQuantity;
-      // console.log(answer);
+
       connection.query(
         "SELECT * FROM products WHERE item_id =" + answer.productID,
         function(err, results) {
@@ -65,33 +65,20 @@ function promptCustomerForItem() {
           } else {
             product_id = answer.productID;
             purchaseQuantity = answer.quantity;
-            makePurchase(product_id, purchaseQuantity);
+            makePurchase(product_id, purchaseQuantity, results[0].price);
           }
         }
       );
     });
 }
 
-function makePurchase(product_id, quantity) {
-  var query = connection.query(
+function makePurchase(product_id, quantity, price) {
+  connection.query(
     // Updating the quantity ......
     "UPDATE products SET stock_quantity = stock_quantity - ? WHERE item_id = ?",
     [quantity, product_id],
     function(error, res) {
-	  console.log("successful purchase");
+      console.log("Total: " + quantity * price);
     }
   );
-  console.log(query.sql);
 }
-
-// function makePurchase(product_id, stock_quantity) {
-//   connection.query(
-//     // Updating the quantity ......
-//     "UPDATE products SET stock_quantity = stock_quantity - ? WHERE item_id = ?",
-//     [stock_quantity, product_id],
-//     function(error, res) {
-//       console.log("successful purchase");
-//       // start();
-//     }
-//   );
-// }
