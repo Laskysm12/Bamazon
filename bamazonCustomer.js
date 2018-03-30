@@ -50,16 +50,44 @@ function promptCustomerForItem() {
       }
     ])
     .then(function(answer) {
-      console.log(answer);
+      var product_id;
+      var stock_quantity;
+      // console.log(answer);
       connection.query(
-        "SELECT * FROM products WHERE item_id =" + answer.productID, function(err, results) {
-            if (err) throw err;
-            console.log(results);
-        }   
+        "SELECT * FROM products WHERE item_id =" + answer.productID,
+        function(err, results) {
+          if (err) throw err;
+          console.table(results);
+          // Citing index 0 in the results array (only one object but it is necessary to cite index 0 of the results object)
+          if (answer.quantity > results[0].stock_quantity) {
+            console.log("Insufficient quantity!");
+            start();
+          }
+          else {
+            product_id = answer.productID;
+            stock_quantity = results[0].stock_quantity;
+            makePurchase(product_id, stock_quantity);
+          }
+        }
       );
     });
 }
 
+function makePurchase(product_id, stock_quantity) {
+  connection.query(
+    // Updating the quantity ......
+    "UPDATE products SET stock_quantity = stock_quantity - ? WHERE item_id = ?",
+    [stock_quantity, product_id],
+    function(error, res)
+      {console.log("successful purchase");
+          },
+    
+  )
+}
+
+// Potentially call function inside
+
+// // var product = data[0];
 // Add query database
 // First
 // will check whether user answer > quantity
