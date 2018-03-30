@@ -85,36 +85,3 @@ function makePurchase(product_id, stock_quantity) {
   )
 }
 
-// Potentially call function inside
-
-// // var product = data[0];
-// Add query database
-// First
-// will check whether user answer > quantity
-// If then statement goes in the .then
-
-// Run the start function after the connection is made to prompt the user
-// loadProducts();
-// console.log()
-
-// Function to load the products table from the database and print results to the console
-// function loadProducts() {
-//     // Selects all of the data from the MySQL products table
-//     connection.query("SELECT * FROM products", function(err, res) {
-//       if (err) throw err;
-//       console.log
-
-//       // Draw the table in the terminal using the response
-//     //   console.table(res);
-
-//       // Then prompt the customer for their choice of product, pass all the products to promptCustomerForItem
-//     //   promptCustomerForItem(res);
-//     });
-//   }
-
-// function start() {
-//     inquirer
-//         .prompt({
-
-//         })
-// }
